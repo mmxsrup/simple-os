@@ -23,13 +23,28 @@ _start:
 
 	call disk_load
 	call setup_gdt
+	call switch_to_pmod
+
+[bits 32]
+start_pmod:
+	call boot_kernel
 
 	cli
 	hlt
+end_pmod:
+
+boot_kernel:
+	cli
+	mov ebp,  KERNEL_OFFSET; kerenl.img (ELF file) addr
+	add ebp, [ebp + 0x18] ; entry addr
+
+	call ebp
+	ret
 
 %include "print.s"
 %include "disk_load.s"
 %include "gdt.s"
+%include "switch_to_pmod.s"
 
 msg_booting: db "Booting...", 0x0a, 0x0d, 0
 msg_started_16: db "Started in 16-bit real mode (16bit)", 0x0a, 0x0d, 0
