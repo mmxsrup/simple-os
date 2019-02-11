@@ -22,13 +22,14 @@ _start:
 	call print
 
 	call disk_load
+	call setup_gdt
 
 	cli
 	hlt
 
-
 %include "print.s"
 %include "disk_load.s"
+%include "gdt.s"
 
 msg_booting: db "Booting...", 0x0a, 0x0d, 0
 msg_started_16: db "Started in 16-bit real mode (16bit)", 0x0a, 0x0d, 0
