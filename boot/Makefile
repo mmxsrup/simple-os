@@ -2,8 +2,12 @@ TARGET = loader.img
 
 NASM = nasm
 
+include = print.s \
+			disk_load.s \
+			gdt.s \
+			switch_to_pmod.s
 
-$(TARGET): loader.s Makefile
+$(TARGET): loader.s $(include) Makefile
 	$(NASM) loader.s -o $(TARGET)
 
 clean:
