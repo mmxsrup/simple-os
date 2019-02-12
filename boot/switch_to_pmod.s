@@ -7,7 +7,7 @@ switch_to_pmod:
 	mov eax, cr0
 	or eax, 1
 	mov cr0, eax
-	jmp CODE_SEG:start_pmod
+	jmp CODE_SEG:init_pmod
 
 
 [bits 32]
