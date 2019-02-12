@@ -2,7 +2,7 @@ global _start
 
 org 0x7c00
 %define KERNEL_SRC 0x1000
-%define KERNEL_DEST 0x1000
+%define KERNEL_DEST 0x100000
 %define LOAD_SECTOR_SIZE 0x10
 
 [bits 16]
@@ -25,6 +25,7 @@ _start:
 
 	call disk_load
 	call setup_gdt
+	call enable_a20
 	call switch_to_pmod
 
 [bits 32]
@@ -52,6 +53,7 @@ boot_kernel:
 %include "print.s"
 %include "disk_load.s"
 %include "gdt.s"
+%include "enable_a20.s"
 %include "switch_to_pmod.s"
 
 msg_booting: db "Booting...", 0x0a, 0x0d, 0

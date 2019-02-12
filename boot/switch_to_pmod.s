@@ -21,7 +21,7 @@ init_pmod:
 	mov gs, ax
 	mov ss, ax
 
-	mov ebp, 0x9000
+	mov ebp, 0xa0000
 	mov esp, ebp
 
 	jmp start_pmod
