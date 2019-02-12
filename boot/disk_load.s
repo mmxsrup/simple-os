@@ -5,7 +5,7 @@ disk_load:
 	pusha
 
 	mov ah, 0x02 ; read sectors from drive
-	mov al, 0x31 ; sectors to read count
+	mov al, LOAD_SECTOR_SIZE ; sectors to read count
 	mov ch, 0x00 ; cylinder
 	mov cl, 0x02 ; sector
 	mov dh, 0x00 ; head
@@ -14,7 +14,7 @@ disk_load:
 	; buffer address pointer (es:bx)
 	mov bx, 0x0000
 	mov es, bx
-	mov bx, KERNEL_OFFSET
+	mov bx, KERNEL_SRC
 
 	int 0x13
 

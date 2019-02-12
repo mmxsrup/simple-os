@@ -1,7 +1,9 @@
 global _start
 
 org 0x7c00
-%define KERNEL_OFFSET 0x1000
+%define KERNEL_SRC 0x1000
+%define KERNEL_DEST 0x1000
+%define LOAD_SECTOR_SIZE 0x10
 
 [bits 16]
 _start:
@@ -27,18 +29,24 @@ _start:
 
 [bits 32]
 start_pmod:
+	call reloc_kernel
 	call boot_kernel
 
 	cli
 	hlt
 end_pmod:
 
-boot_kernel:
-	cli
-	mov ebp,  KERNEL_OFFSET; kerenl.img (ELF file) addr
-	add ebp, [ebp + 0x18] ; entry addr
+reloc_kernel:
+	cld
+	mov ecx, LOAD_SECTOR_SIZE
+	shl ecx, 9 ;sector -> bytes
+	mov esi, KERNEL_SRC
+	mov edi, KERNEL_DEST
+	rep movsb
+	ret
 
-	call ebp
+boot_kernel:
+	call KERNEL_DEST; kerenl.img addr
 	ret
 
 %include "print.s"
