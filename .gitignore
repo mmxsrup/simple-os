@@ -1,0 +1,4 @@
+*.o
+myos.img
+loader.img
+kernel.img
